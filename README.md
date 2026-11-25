@@ -51,7 +51,7 @@ https://github.com/alpsozu/courtcheck/commits/main/
 
 AI assistance
 
-I used ChatGPT to help choose the project idea, generate the website code, improve the design and understand the testing steps. I uploaded the code to GitHub and checked the quick demo myself. The screenshots in my report show the results of this check.
+I used ChatGPT to help with the website code, improve the design and understand the testing steps. I uploaded the code to GitHub and checked the quick demo myself. The screenshots in my report show the results of this check. I used as an assisant when I struggled with with problems about the project.
 
 Additional files
 

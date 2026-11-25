@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CourtCheck | Sports venue recommendations</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font: 16px/1.5 system-ui, sans-serif;
+    color: #18243b;
+    background: linear-gradient(135deg, #e6f9ed, #edf1ff 55%, #fce8ff);
+    min-height: 100vh;
+}
+
+main {
+    max-width: 1000px;
+    margin: auto;
+    padding: 28px 24px 48px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.brand {
+    font-size: 26px;
+    font-weight: 850;
+    letter-spacing: -1px;
+}
+
+.brand span {
+    color: #147e58;
+}
+
+.tag {
+    font-size: 12px;
+    font-weight: 700;
+    background: white;
+    border: 1px solid #d5dce9;
+    border-radius: 99px;
+    padding: 6px 12px;
+}
+
+.hero {
+    background: linear-gradient(110deg, #163e35, #245c69 65%, #47458b);
+    color: white;
+    border-radius: 24px;
+    padding: 30px;
+    margin: 22px 0;
+    box-shadow: 0 12px 28px #173a3e22;
+}
+
+.hero small {
+    color: #a7f3d0;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.1;
+    margin: 10px 0;
+}
+
+.hero p {
+    margin: 12px 0 0;
+    color: #e1f0f2;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #dce3ef;
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 5px 18px #2335540b;
+}
+
+h2 {
+    font-size: 19px;
+    margin: 0 0 12px;
+}
+
+h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.muted {
+    color: #53647c;
+    font-size: 14px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+label {
+    font-weight: 650;
+    font-size: 14px;
+    display: block;
+    flex: 1;
+    min-width: 140px;
+}
+
+select, button {
+    font: inherit;
+}
+
+select {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #acb9cb;
+    border-radius: 9px;
+    background: white;
+    color: #18243b;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-weight: 700;
+    color: #163e35;
+    background: #dcf5e7;
+}
+
+button:hover {
+    filter: brightness(.95);
+}
+
+button:focus-visible, select:focus-visible {
+    outline: 3px solid #7352cb;
+    outline-offset: 3px;
+}
+
+button.primary {
+    background: #17684d;
+    color: white;
+}
+
+button.secondary {
+    background: #ebe6ff;
+    color: #48348b;
+}
+
+button.reject {
+    background: #fff0ee;
+    color: #973d31;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 16px;
+}
+
+.requirements {
+    display: grid;
+    gap: 9px;
+}
+
+.requirement {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    background: #f1f5fa;
+    border-radius: 10px;
+    gap: 8px;
+}
+
+.requirement b {
+    color: #244e68;
+}
+
+.venue {
+    background: linear-gradient(125deg, #e0f9ed, #e9e8ff);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 750;
+    color: #245f51;
+}
+
+.facts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.fact {
+    background: white;
+    border-radius: 9px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.explanation {
+    padding: 12px 15px;
+    background: #f5f2ff;
+    border-left: 4px solid #7864c9;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.feedback {
+    padding: 13px;
+    background: #edf6fb;
+    border-radius: 10px;
+    margin-top: 12px;
+}
+
+.good {
+    color: #12613f;
+}
+
+.bad {
+    color: #a03225;
+}
+
+.progress {
+    height: 7px;
+    background: #e3e9f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0 18px;
+}
+
+.progress div {
+    height: 100%;
+    background: #16875c;
+    transition: width .2s;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hidden, [hidden] {
+    display: none !important;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+}
+
+th, td {
+    text-align: left;
+    padding: 9px;
+    border-bottom: 1px solid #e3e9f0;
+}
+
+footer {
+    font-size: 12px;
+    color: #53647c;
+    margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 16px;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .tablewrap {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<header>
+    <div class="brand">◉ Court<span>Check</span></div>
+    <span class="tag">University project · simulated venues</span>
+</header>
+
+<section class="hero">
+    <small>SMARTER CHOICES, YOUR CALL</small>
+    <h1>Would you trust this recommendation?</h1>
+    <p>
+        Find a padel court that fits your plans.
+        Check the suggestion and decide for yourself.
+    </p>
+</section>
+
+<section class="panel" id="setup">
+
+    <h2>Start a session</h2>
+
+    <p class="muted">
+        Six fictional scenarios compare three ways of explaining
+        recommendations. Some suggestions may not meet your
+        requirements. No real bookings are made.
+    </p>
+
+    <div class="controls">
+
+        <label>
+            Session order
+            <select id="order">
+                <option value="0">Order A</option>
+                <option value="1">Order B</option>
+                <option value="2">Order C</option>
+            </select>
+        </label>
+
+        <button class="primary" id="start">
+            Start session
+        </button>
+
+        <button class="secondary" id="demo">
+            Try a quick demo
+        </button>
+
+    </div>
+
+</section>
+
+<section id="play" hidden>
+
+    <div class="bottom">
+        <strong id="counter"></strong>
+        <span class="tag" id="mode"></span>
+    </div>
+
+    <div class="progress">
+        <div id="bar"></div>
+    </div>
+
+    <div class="grid">
+
+        <section class="panel">
+
+            <h2>Your requirements</h2>
+
+            <p class="muted">
+                All three are essential for this scenario.
+            </p>
+
+            <div class="requirements" id="requirements"></div>
+
+            <p class="muted">
+                Compare the venue details with your
+                requirements before deciding.
+            </p>
+
+        </section>
+
+        <section class="panel">
+
+            <h2>Suggested venue</h2>
+
+            <div class="venue">
+                <span class="eyebrow">Recommended padel court</span>
+                <h3 id="venue"></h3>
+                <div class="facts" id="facts"></div>
+            </div>
+
+            <div id="explain" class="explanation" hidden></div>
+
+            <button id="check" class="secondary" hidden>
+                Check requirements
+            </button>
+
+            <div id="checks" class="feedback" hidden></div>
+
+            <div class="actions">
+
+                <button id="accept" class="primary">
+                    Accept suggestion
+                </button>
+
+                <button id="reject" class="reject">
+                    Reject suggestion
+                </button>
+
+            </div>
+
+            <div id="feedback" class="feedback"
+                 role="status" hidden></div>
+
+            <button id="next" class="primary"
+                    hidden style="margin-top:12px">
+                Next scenario
+            </button>
+
+        </section>
+
+    </div>
+
+    <button id="quit">End session / reset</button>
+
+</section>
+
+<section class="panel" id="results" hidden>
+
+    <h2>Session complete</h2>
+
+    <p id="score"></p>
+
+    <div class="tablewrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Explanation</th>
+                    <th>Correct</th>
+                    <th>Bad suggestions rejected</th>
+                    <th>Time (s)</th>
+                </tr>
+            </thead>
+
+            <tbody id="summary"></tbody>
+
+        </table>
+
+    </div>
+
+    <p class="muted">
+        Decision time includes reading and checking.
+        The results are stored only in this open page
+        unless you export them.
+    </p>
+
+    <div class="actions">
+
+        <button id="export" class="primary">
+            Export results (CSV)
+        </button>
+
+        <button id="restart">
+            New session
+        </button>
+
+    </div>
+
+</section>
+
+<footer>
+    Educational prototype • fictional data • no live AI,
+    accounts or booking services • decisions are not sent
+    to a server
+</footer>
+
+</main>
+
+<script>
+
+// Fictional venues and testing scenarios
+
+const cases = [
+    {
+        id: 1,
+        budget: 30,
+        distance: 5,
+        type: "Indoor",
+        name: "Greenline Padel",
+        price: 26,
+        km: 3,
+        court: "Indoor"
+    },
+    {
+        id: 2,
+        budget: 25,
+        distance: 5,
+        type: "Indoor",
+        name: "Skyline Padel",
+        price: 32,
+        km: 3,
+        court: "Indoor"
+    },
+    {
+        id: 3,
+        budget: 35,
+        distance: 4,
+        type: "Outdoor",
+        name: "Parkside Courts",
+        price: 28,
+        km: 2,
+        court: "Outdoor"
+    },
+    {
+        id: 4,
+        budget: 35,
+        distance: 3,
+        type: "Outdoor",
+        name: "Riverside Padel",
+        price: 29,
+        km: 6,
+        court: "Outdoor"
+    },
+    {
+        id: 5,
+        budget: 30,
+        distance: 6,
+        type: "Indoor",
+        name: "City Point Padel",
+        price: 27,
+        km: 4,
+        court: "Indoor"
+    },
+    {
+        id: 6,
+        budget: 35,
+        distance: 5,
+        type: "Indoor",
+        name: "Sunset Courts",
+        price: 25,
+        km: 2,
+        court: "Outdoor"
+    }
+];
+
+const modes = [
+    "No explanation",
+    "Short explanation",
+    "Detailed explanation + optional check"
+];
+
+const $ = id => document.getElementById(id);
+
+
+// Check if a venue meets each requirement
+
+function matches(c) {
+    return [
+        c.price <= c.budget,
+        c.km <= c.distance,
+        c.court === c.type
+    ];
+}
+
+function suitable(c) {
+    return matches(c).every(Boolean);
+}
+
+function comparisons(c) {
+    return [
+        `Price: £${c.price} / max £${c.budget}`,
+        `Distance: ${c.km} km / max ${c.distance} km`,
+        `Court: ${c.court} / ${c.type} required`
+    ];
+}
+
+
+// Session variables
+
+let queue = [];
+let records = [];
+let position = 0;
+let started = 0;
+let checked = false;
+let demo = false;
+let order = 0;
+
+function show(id, yes) {
+    $(id).hidden = !yes;
+}
+
+
+// Start a new session
+
+function begin(isDemo) {
+
+    demo = isDemo;
+    order = Number($("order").value);
+    records = [];
+    position = 0;
+
+    queue = isDemo
+        ? [{ c: cases[1], m: 2 }]
+        : cases.map((c, i) => ({
+            c,
+            m: (Math.floor(i / 2) + order) % 3
+        }));
+
+    show("setup", false);
+    show("results", false);
+    show("play", true);
+
+    render();
+}
+
+
+// Display the current scenario
+
+function render() {
+
+    const { c, m } = queue[position];
+
+    checked = false;
+
+    $("counter").textContent =
+        `Scenario ${position + 1} of ${queue.length}`;
+
+    $("mode").textContent = modes[m];
+
+    $("bar").style.width =
+        `${(position + 1) / queue.length * 100}%`;
+
+    $("requirements").innerHTML = [
+        ["Maximum price", `£${c.budget}`],
+        ["Maximum distance", `${c.distance} km`],
+        ["Court type", c.type]
+    ].map(([a, b]) =>
+        `<div class="requirement">${a}<b>${b}</b></div>`
+    ).join("");
+
+    $("venue").textContent = c.name;
+
+    $("facts").innerHTML = [
+        `£${c.price} / hour`,
+        `${c.km} km away`,
+        c.court
+    ].map(x =>
+        `<span class="fact">${x}</span>`
+    ).join("");
+
+    show("explain", m !== 0);
+
+    const flags = matches(c);
+
+    const positives = [
+        flags[0] ? "within budget" : null,
+        flags[1] ? "within travel distance" : null,
+        flags[2] ? "the requested court type" : null
+    ].filter(Boolean);
+
+    $("explain").textContent = m === 1
+        ? `Suggested because it is ${positives.join(" and ")}.`
+        : `The simulated recommender prioritised matching features.
+           ${flags.filter(Boolean).length} of 3 requirements match.
+           ${comparisons(c).join("; ")}.
+           Check all three before deciding.`;
+
+    show("check", m === 2);
+    show("checks", false);
+    show("feedback", false);
+    show("next", false);
+
+    $("accept").disabled = false;
+    $("reject").disabled = false;
+    $("check").disabled = false;
+
+    started = performance.now();
+}
+
+
+// Allow the user to check the recommendation
+
+function check() {
+
+    const { c } = queue[position];
+
+    checked = true;
+
+    $("checks").innerHTML = comparisons(c).map((s, i) =>
+        `<div class="${matches(c)[i] ? "good" : "bad"}">
+            ${matches(c)[i] ? "✓ Meets" : "✕ Does not meet"} — ${s}
+        </div>`
+    ).join("");
+
+    show("checks", true);
+
+    $("check").disabled = true;
+}
+
+
+// Record the user's decision
+
+function decide(accept) {
+
+    if ($("accept").disabled) return;
+
+    const { c, m } = queue[position];
+
+    const fit = suitable(c);
+    const correct = accept === fit;
+
+    records.push({
+        case_id: c.id,
+        mode: modes[m],
+        suitable: fit,
+        decision: accept ? "accept" : "reject",
+        correct,
+        checked,
+        seconds: ((performance.now() - started) / 1000).toFixed(2),
+        order: demo ? "demo" : order
+    });
+
+    $("accept").disabled = true;
+    $("reject").disabled = true;
+    $("check").disabled = true;
+
+    $("feedback").textContent =
+        `Decision recorded: ${accept ? "accepted" : "rejected"}.`;
+
+    if (demo) {
+
+        $("feedback").textContent +=
+            ` ${correct ? "Correct." : "Incorrect."} ${
+                fit
+                ? "All requirements match."
+                : comparisons(c)
+                    .filter((_, i) => !matches(c)[i])
+                    .join("; ") + " fails a requirement."
+            }`;
+    }
+
+    show("feedback", true);
+
+    $("next").textContent =
+        position === queue.length - 1
+        ? "See results"
+        : "Next scenario";
+
+    show("next", true);
+}
+
+
+// Show the final results
+
+function finish() {
+
+    show("play", false);
+    show("results", true);
+
+    $("score").textContent =
+        `${records.filter(r => r.correct).length}
+         of ${records.length} decisions matched the requirements.`;
+
+    $("summary").innerHTML = modes.map(m => {
+
+        const r = records.filter(x => x.mode === m);
+
+        if (!r.length) return "";
+
+        const bad = r.filter(x => !x.suitable);
+
+        return `
+            <tr>
+                <td>${m}</td>
+                <td>${r.filter(x => x.correct).length}/${r.length}</td>
+                <td>${bad.filter(x => x.correct).length}/${bad.length}</td>
+                <td>${r.reduce((a, x) => a + Number(x.seconds), 0).toFixed(1)}</td>
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+// Reset the application
+
+function reset() {
+
+    queue = [];
+    records = [];
+
+    show("play", false);
+    show("results", false);
+    show("setup", true);
+}
+
+
+// Button actions
+
+$("start").onclick = () => begin(false);
+
+$("demo").onclick = () => begin(true);
+
+$("check").onclick = check;
+
+$("accept").onclick = () => decide(true);
+
+$("reject").onclick = () => decide(false);
+
+$("next").onclick = () => {
+
+    position++;
+
+    if (position < queue.length) {
+        render();
+    } else {
+        finish();
+    }
+
+};
+
+$("quit").onclick = reset;
+
+$("restart").onclick = reset;
+
+
+// Export the results as a CSV file
+
+$("export").onclick = () => {
+
+    if (!records.length) return;
+
+    const keys = Object.keys(records[0]);
+
+    const csv = [
+        keys.join(","),
+        ...records.map(r =>
+            keys.map(k => JSON.stringify(r[k])).join(",")
+        )
+    ].join("\n");
+
+    const url = URL.createObjectURL(
+        new Blob([csv], { type: "text/csv" })
+    );
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "courtcheck-results.csv";
+    a.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+
+</script>
+
+</body>
+</html>

@@ -23,10 +23,29 @@ Open the [live website](https://alpsozu.github.io/courtcheck/) or download `inde
 
 Development record
 
-- I first worked on the project locally in Visual Studio Code before uploading the files to GitHub. This is why the first commit contains the main working version rather than separate commits for each feature.
-- I moved from a revision task picker to sports venue recommendations to better match my literature review.
-- The interface was designed to show the user's requirements next to the recommended venue so they are easy to compare.
-- I checked the quick demo, including a venue that was over budget, the requirement check, rejection feedback and the results page.
+## Development record
+
+- I first started with a revision task picker but later decided to change my project to CourtCheck as it was more related to my literature review.
+
+- I started with a basic version of the website using HTML, CSS and JavaScript. I wanted to keep the project simple without needing a database or an external API.
+
+- I added six different scenarios with both good and bad recommendations. This allows me to compare how users make decisions with different types of explanations.
+
+- I added three explanation types: no explanation, short explanation and detailed explanation. These were based on the findings from my Assignment 1 research.
+
+- I added a button that allows users to check if the recommended venue matches their requirements before making a decision.
+
+- I added a results page and a CSV export option so that decisions, correct answers and response times can be recorded.
+
+- After testing the first version, I noticed that the design could be improved. I decided to change the colour theme from green to blue to make the website look more consistent and cleaner.
+
+- I tested the quick demo by checking a recommendation that was over the user's budget. The website correctly showed the issue and recorded my decision when I rejected the suggestion.
+
+- My next improvements are to make the explanations easier to read, improve the requirement checking section and make the results page clearer.
+
+The development history can be found here:
+
+https://github.com/alpsozu/courtcheck/commits/main/
 
 [Commit history](https://github.com/alpsozu/courtcheck/commits/main/)
 
